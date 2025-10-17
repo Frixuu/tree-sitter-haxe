@@ -58,6 +58,26 @@ function test(a="test", b=23, ?c=11) {}
         value: (int)))
     (block)))
 
+===========================
+function declaration with explicit return type
+===========================
+
+function test(foo:Int):Void {}
+
+---
+
+(module
+  (function_decl
+    name: (identifier)
+    (param_list
+      (param
+        name: (identifier)
+        type: (type_path
+          (type_name))))
+    (type_path
+      (type_name))
+    (block)))
+
 ===================
 arrow function
 ===================

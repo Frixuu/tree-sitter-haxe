@@ -121,6 +121,18 @@ typedef A = {}
     (identifier)
     (typedef_block)))
 
+===================
+typedef declaration with trailing semicolon
+===================
+
+typedef A = {};
+
+---
+
+(module
+  (typedef_decl
+    (identifier)
+    (typedef_block)))
 
 =========================
 typedef declaration alias

@@ -52,3 +52,17 @@ a[f()];
     (call_expr
       (identifier)
       (arg_list))))
+
+=======================
+variable assignment expression
+=======================
+
+var x = y = 4;
+---
+
+(module
+  (var_decl
+    (identifier)
+    (assignment_expr
+      (identifier)
+      (int))))
