@@ -6,6 +6,7 @@ var ro(default, null):Int;
 var wo(null, default):Int;
 var x(get, set):Int;
 var y(get, never):Int;
+final z:Int;
 
 ---
 
@@ -36,5 +37,9 @@ var y(get, never):Int;
     (property_accessor
       get: (property_access_identifier)
       set: (property_access_identifier))
+    type: (type_path
+      (type_name)))
+  (var_decl
+    name: (identifier)
     type: (type_path
       (type_name))))
