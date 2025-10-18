@@ -75,3 +75,24 @@ static final foo:Int = {1;};
     type: (type_path
       (type_name))
     value: (block (int))))
+
+========
+field with nested generic type
+========
+
+private var children:Array<Node<T>>;
+
+---
+
+(module
+  (var_decl
+    (private)
+    name: (identifier)
+    type: (type_path
+      (type_name)
+      (type_params
+        (type_path
+          (type_name)
+          (type_params
+            (type_path
+              (type_name))))))))
