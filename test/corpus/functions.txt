@@ -106,6 +106,7 @@ arrow function
 () -> {};
 a -> {};
 (a,b) -> trace(a,b);
+(a, b) -> switch [a, b] { case _: 0; };
 
 ---
 
@@ -131,7 +132,20 @@ a -> {};
       function: (identifier)
       arguments: (arg_list
         (identifier)
-        (identifier)))))
+        (identifier))))
+  (arrow_function_expr
+    params: (param_list
+      (param
+        name: (identifier))
+      (param
+        name: (identifier)))
+    body: (switch_expr
+      (array
+        (identifier)
+        (identifier))
+      (switch_case
+        pattern: (pattern)
+        (int)))))
 
 ===================================
 function with return statement body

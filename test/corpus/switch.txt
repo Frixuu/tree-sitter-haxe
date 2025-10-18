@@ -10,7 +10,7 @@ switch(a) {
 ---
 
 (module
-  (switch_stmt
+  (switch_expr
     (identifier)
     (switch_case
       pattern: (pattern
@@ -33,7 +33,7 @@ switch a {
 ---
 
 (module
-  (switch_stmt
+  (switch_expr
     (identifier)
     (switch_case
       pattern: (pattern
@@ -58,7 +58,7 @@ switch (myTree) {
 ---
 
 (module
-  (switch_stmt
+  (switch_expr
     (identifier)
     (switch_case
       pattern: (pattern
@@ -113,7 +113,7 @@ switch (myTree) {
 ---
 
 (module
-  (switch_stmt
+  (switch_expr
     (identifier)
     (switch_case
       pattern: (pattern
@@ -151,7 +151,7 @@ switch (myStructure) {
 ---
 
 (module
-  (switch_stmt
+  (switch_expr
     (identifier)
     (switch_case
       pattern: (pattern
@@ -177,3 +177,35 @@ switch (myStructure) {
       pattern: (pattern)
       (string
         (fragment)))))
+
+====================================
+switch on array with discard pattern
+====================================
+
+switch [a, b] {
+    case [Some(_), Some(_)]: 1;
+    case _: 0;
+}
+
+---
+
+(module
+  (switch_expr
+    (array
+      (identifier)
+      (identifier))
+    (switch_case
+      pattern: (pattern
+        (array_pattern
+          (pattern
+            (call_pattern
+              (identifier)
+              (pattern)))
+          (pattern
+            (call_pattern
+              (identifier)
+              (pattern)))))
+      (int))
+    (switch_case
+      pattern: (pattern)
+      (int))))

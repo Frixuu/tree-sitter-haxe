@@ -69,6 +69,7 @@ export default grammar({
     [$._expression, $.pattern],
     [$._expression, $._pattern_arg],
     [$.arg_list, $.call_pattern],
+    [$.array, $.array_pattern],
     [$.package_path],
     [$.return_expr],
     [$.var_decl, $.function_decl, $.conditional],
@@ -105,6 +106,7 @@ export default grammar({
         $.map,
         $.for_expr,
         $.if_expr,
+        $.switch_expr,
         $.object,
         $._parenthesized_expr,
         $.cast_expr,
@@ -535,7 +537,7 @@ export default grammar({
         $.throw_stmt,
         $.type_trace_stmt,
         prec(1, $.if_expr),
-        $.switch_stmt,
+        prec(1, $.switch_expr),
         prec(1, $.for_expr),
         $.while_stmt,
         $.do_stmt,
@@ -562,7 +564,7 @@ export default grammar({
         )
       ),
 
-    switch_stmt: ($) =>
+    switch_expr: ($) =>
       seq(
         "switch",
         $._expression,
@@ -637,12 +639,31 @@ export default grammar({
     block: ($) => seq("{", repeat($._statement), "}"),
 
     pattern: ($) =>
-      choice("_", $.identifier, $.literal, $.call_pattern, $.object_pattern),
+      choice(
+        "_",
+        $.identifier,
+        $.literal,
+        $.call_pattern,
+        $.object_pattern,
+        $.array_pattern
+      ),
 
     _pattern_arg: ($) => choice($.pattern, seq($.identifier, "=", $.pattern)),
 
     call_pattern: ($) =>
       seq($.identifier, "(", optional(commaSep($._pattern_arg)), ")"),
+
+    array_pattern: ($) =>
+      seq(
+        "[",
+        optional(
+          seq(
+            commaSep($.pattern),
+            optional(","),
+          ),
+        ),
+        "]"
+      ),
 
     package_stmt: ($) => seq("package", optional($.package_path), $._semicolon),
 
