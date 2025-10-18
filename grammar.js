@@ -70,7 +70,6 @@ export default grammar({
     [$._expression, $._pattern_arg],
     [$.arg_list, $.call_pattern],
     [$.package_path],
-    [$.return_stmt, $.return_expr],
     [$.return_expr],
     [$.var_decl, $.function_decl, $.conditional],
     [$._conditional_expr],
@@ -531,7 +530,6 @@ export default grammar({
         $.function_decl,
         $.break_stmt,
         $.continue_stmt,
-        $.return_stmt,
         $.throw_stmt,
         $.type_trace_stmt,
         $.if_stmt,
@@ -549,8 +547,6 @@ export default grammar({
 
     break_stmt: ($) => seq("break", $._semicolon),
     continue_stmt: ($) => seq("continue", $._semicolon),
-    return_stmt: ($) =>
-      seq("return", optional($._expression), optional($._semicolon)),
     throw_stmt: ($) => seq("throw", $._expression, $._semicolon),
     type_trace_stmt: ($) => seq("$(", $._expression, ")", $._semicolon),
 

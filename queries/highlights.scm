@@ -171,7 +171,6 @@
 (switch_case pattern: (identifier) @constant)
 (switch_case pattern: (_) @constant)
 
-(return_stmt "return") @keyword
 (throw_stmt "throw") @keyword
 (catch_clause (identifier) @variable.exception)
 
