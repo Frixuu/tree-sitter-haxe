@@ -118,6 +118,7 @@ export default grammar({
         $.null,
         // $.cc_expr, // only expression-level CC here
         $.untyped,
+        $.block,
       ),
 
     expression: ($) => $._expression,
@@ -174,7 +175,7 @@ export default grammar({
         optional($.param_list),
         ")",
         optional(seq(":", $.type_path)),
-        field("body", choice($.block, $._expression)),
+        field("body", $._expression),
       ),
 
     return_expr: ($) => seq("return", optional($._expression)),
@@ -527,7 +528,6 @@ export default grammar({
     _statement: ($) =>
       choice(
         $.conditional,
-        $.block,
         $.function_decl,
         $.break_stmt,
         $.continue_stmt,

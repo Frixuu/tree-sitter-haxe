@@ -43,3 +43,35 @@ final z:Int;
     name: (identifier)
     type: (type_path
       (type_name))))
+
+========
+field with literal value assigned
+========
+
+static final foo:Int = 1;
+
+---
+
+(module
+  (var_decl
+    (static)
+    name: (identifier)
+    type: (type_path
+      (type_name))
+    value: (int)))
+
+========
+field with block expression value assigned
+========
+
+static final foo:Int = {1;};
+
+---
+
+(module
+  (var_decl
+    (static)
+    name: (identifier)
+    type: (type_path
+      (type_name))
+    value: (block (int))))
