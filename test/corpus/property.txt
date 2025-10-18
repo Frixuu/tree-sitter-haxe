@@ -77,6 +77,25 @@ static final foo:Int = {1;};
     value: (block (int))))
 
 ========
+field with if expression value assigned
+========
+
+static final foo:Int = if (false) 2 else 3;
+
+---
+
+(module
+  (var_decl
+    (static)
+    name: (identifier)
+    type: (type_path
+      (type_name))
+    value: (if_expr
+      condition: (false)
+      consequence: (int)
+      alternative: (int))))
+
+========
 field with nested generic type
 ========
 

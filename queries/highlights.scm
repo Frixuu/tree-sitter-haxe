@@ -166,7 +166,7 @@
 (cast_expr type: (type_path) @type)
 (new_expr type: (type_path) @type)
 
-(for_stmt (identifier) @variable)
+(for_expr (identifier) @variable)
 
 (switch_case pattern: (identifier) @constant)
 (switch_case pattern: (_) @constant)

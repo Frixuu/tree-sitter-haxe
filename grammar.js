@@ -103,6 +103,8 @@ export default grammar({
         $.call_expr,
         $.array,
         $.map,
+        $.for_expr,
+        $.if_expr,
         $.object,
         $._parenthesized_expr,
         $.cast_expr,
@@ -454,7 +456,7 @@ export default grammar({
       prec.right(
         choice(
           seq("[", optional(commaSep1($._expression)), optional(","), "]"),
-          seq(
+          prec(1, seq(
             "[",
             "for",
             "(",
@@ -462,10 +464,10 @@ export default grammar({
             "in",
             field("iterable", $._expression),
             ")",
-            optional(seq("if", field("condition", $._expression))),
+            optional(seq("if", field("condition", $._parenthesized_expr))),
             field("result", $._expression),
             "]",
-          ),
+          )),
           seq(
             "[",
             "while",
@@ -482,7 +484,7 @@ export default grammar({
       prec.right(
         choice(
           seq("[", commaSep1(seq($._expression, "=>", $._expression)), optional(","), "]"),
-          seq(
+          prec(1, seq(
             "[",
             "for",
             "(",
@@ -490,12 +492,12 @@ export default grammar({
             "in",
             field("iterable", $._expression),
             ")",
-            optional(seq("if", field("condition", $._expression))),
+            optional(seq("if", field("condition", $._parenthesized_expr))),
             field("key", $._expression),
             "=>",
             field("value", $._expression),
             "]",
-          ),
+          )),
           seq(
             "[",
             "while",
@@ -532,9 +534,9 @@ export default grammar({
         $.continue_stmt,
         $.throw_stmt,
         $.type_trace_stmt,
-        $.if_stmt,
+        prec(1, $.if_expr),
         $.switch_stmt,
-        $.for_stmt,
+        prec(1, $.for_expr),
         $.while_stmt,
         $.do_stmt,
         $.try_stmt,
@@ -550,16 +552,14 @@ export default grammar({
     throw_stmt: ($) => seq("throw", $._expression, $._semicolon),
     type_trace_stmt: ($) => seq("$(", $._expression, ")", $._semicolon),
 
-    if_stmt: ($) =>
+    if_expr: ($) =>
       prec.right(
         seq(
           "if",
-          "(",
-          $._expression,
-          ")",
-          $._statement,
-          optional(seq("else", $._statement)),
-        ),
+          field("condition", $._parenthesized_expr),
+          field("consequence", $._expression),
+          optional(seq("else", field("alternative", $._expression)))
+        )
       ),
 
     switch_stmt: ($) =>
@@ -575,7 +575,7 @@ export default grammar({
       seq(
         "case",
         field("pattern", optional(commaSep1($.pattern))),
-        optional(seq("if", field("guard", $._expression))),
+        optional(seq("if", field("guard", $._parenthesized_expr))),
         ":",
         repeat($._statement),
       ),
@@ -607,8 +607,17 @@ export default grammar({
         "}",
       ),
 
-    for_stmt: ($) =>
-      seq("for", "(", $.identifier, "in", $._expression, ")", $._statement),
+    for_expr: ($) =>
+      seq(
+        "for",
+        "(",
+        field("iterator", $.identifier),
+        optional(seq("=>", field("iterator_value", $.identifier))),
+        "in",
+        field("iterable", $._expression),
+        ")",
+        $._expression
+      ),
 
     while_stmt: ($) => seq("while", "(", $._expression, ")", $._statement),
     do_stmt: ($) =>
