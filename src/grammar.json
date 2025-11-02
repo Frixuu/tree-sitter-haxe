@@ -4973,7 +4973,7 @@
                         "value": 1,
                         "content": {
                           "type": "PATTERN",
-                          "value": "[^\"\\\\$]+"
+                          "value": "[^\"\\\\]+"
                         }
                       }
                     },
@@ -5012,31 +5012,34 @@
       }
     },
     "interpolation": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "${"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "_Expr"
-            },
-            {
-              "type": "STRING",
-              "value": "}"
-            }
-          ]
+          "type": "STRING",
+          "value": "$"
         },
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
-              "type": "STRING",
-              "value": "$"
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "IMMEDIATE_TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "{"
+                  }
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "_Expr"
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
             },
             {
               "type": "SYMBOL",
@@ -5794,6 +5797,9 @@
       "_conditional_body"
     ],
     [
+      "EBinop"
+    ],
+    [
       "EBlock",
       "EObjectDecl"
     ],
@@ -5834,6 +5840,49 @@
       "compile_condition"
     ],
     [
+      "_Expr",
+      "_expr_lhs"
+    ],
+    [
+      "_block_or_expr",
+      "_comprehension_body"
+    ],
+    [
+      "_block_or_expr"
+    ],
+    [
+      "_class_field",
+      "_conditional_body"
+    ],
+    [
+      "_expr_atom",
+      "ESwitch"
+    ],
+    [
+      "_expr_atom",
+      "_expr_value"
+    ],
+    [
+      "_expr_lhs",
+      "compile_condition"
+    ],
+    [
+      "_expr_meta",
+      "ECall"
+    ],
+    [
+      "_expr_prim",
+      "_expr_value"
+    ],
+    [
+      "_expr_value",
+      "_Expr"
+    ],
+    [
+      "_expr_value",
+      "_expr_lhs"
+    ],
+    [
       "_type_decl",
       "_class_field",
       "_conditional_body"
@@ -5847,52 +5896,6 @@
     ],
     [
       "import"
-    ],
-    [
-      "EBinop"
-    ],
-    [
-      "_Expr",
-      "_expr_lhs"
-    ],
-    [
-      "_expr_value",
-      "_expr_lhs"
-    ],
-    [
-      "_expr_value",
-      "_Expr"
-    ],
-    [
-      "_expr_prim",
-      "_expr_value"
-    ],
-    [
-      "_expr_atom",
-      "_expr_value"
-    ],
-    [
-      "_expr_atom",
-      "ESwitch"
-    ],
-    [
-      "_class_field",
-      "_conditional_body"
-    ],
-    [
-      "_block_or_expr"
-    ],
-    [
-      "_block_or_expr",
-      "_comprehension_body"
-    ],
-    [
-      "_expr_lhs",
-      "compile_condition"
-    ],
-    [
-      "_expr_meta",
-      "ECall"
     ]
   ],
   "precedences": [],
